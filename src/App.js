@@ -64,9 +64,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/settings" element={<SettingsPage />} />
-        <Route path="/start" element={<StartPage />} />
+        <Route path="/guess-who" element={<Landing />} />
+        <Route path="/guess-who/settings" element={<SettingsPage />} />
+        <Route path="/guess-who/start" element={<StartPage />} />
       </Routes>
     </BrowserRouter>
   );
