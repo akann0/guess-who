@@ -4,7 +4,7 @@ import personLists from './personLists.json';
 
 
 const SettingsPage = ({ setPage }) => {
-    const [players, setPlayers] = React.useState(2);
+    const [players, setPlayers] = React.useState(1);
     const [numPersons, setNumPersons] = React.useState(24);
     const [questions, setQuestions] = React.useState(10);
     const [personList, setPersonList] = React.useState(["Celebrities"]); //TODO: Set Default Person List

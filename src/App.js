@@ -35,15 +35,15 @@ function Landing({ setPage }) {
     const personList = localStorage.getItem('personList');
 
     if (players) {
-      setPlayers(parseInt(players, 2));
+      setPlayers(parseInt(players));
     }
 
     if (numPersons) {
-      setQuestions(parseInt(numPersons, 24));
+      setQuestions(parseInt(numPersons));
     }
 
     if (questions) {
-      setQuestions(parseInt(questions, 10));
+      setQuestions(parseInt(questions));
     }
 
     if (personList) {

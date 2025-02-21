@@ -1,13 +1,18 @@
 import React, { useEffect } from 'react';
 import personLists from './personLists.json';
+import './Start.css';
+import { click } from '@testing-library/user-event/dist/click';
 
 const StartPage = () => {
 
-    const [personList, setPersonList] = React.useState(["Celebrities"]); //TODO: Set Default Person List
-    const [players, setPlayers] = React.useState(2);
+    const [personList, setPersonList] = React.useState([]); //TODO: Set Default Person List
+    const [players, setPlayers] = React.useState(1);
     const [numPersons, setNumPersons] = React.useState(24);
     const [questions, setQuestions] = React.useState(10);
-    const [suspectList, setSuspectList] = React.useState([]); 
+    const [suspectList, setSuspectList] = React.useState(new Map()); 
+    const [clickedStates, setClickedStates] = React.useState(
+        Object.fromEntries(personLists["Celebrities"].map(person => [person, false]))
+      );
 
     const getRandomSuspects = () => { 
         const suspectListX = [];
@@ -28,7 +33,7 @@ const StartPage = () => {
 
         let newSuspectList = [];
         // randomly rearrange the suspect list
-        while (newSuspectList.length < numPersons && suspectListX.length > 0) {
+        while (newSuspectList.length < (numPersons * players) && suspectListX.length > 0) {
             let randomIndex = Math.floor(Math.random() * suspectListX.length);
             if (!unique.get(suspectListX[randomIndex])) {
                 newSuspectList.push(suspectListX[randomIndex]);
@@ -36,7 +41,26 @@ const StartPage = () => {
             }
             suspectListX.splice(randomIndex, 1);
         }
-        setSuspectList(newSuspectList);
+
+        let teams = new Map();
+        for (let i = 0; i < players; i++) {
+            teams.set(i, []);
+        }
+        for (let i = 0; i < newSuspectList.length; i++) {
+            teams.get(i % players).push(newSuspectList[i]);
+        }
+
+        console.log('teams', teams);
+        console.log('newSuspectList', newSuspectList);
+
+        setSuspectList(teams);
+
+        for (let i = 0; i < players; i++) {
+            console.log(i, teams, teams.get(i))
+            setClickedStates(
+                Object.fromEntries(teams.get(i).map(person => [person, false]))
+            );
+        }
     }
 
     useEffect(() => {
@@ -57,21 +81,33 @@ const StartPage = () => {
         if (questions) {
             setQuestions(questions);
         }
-        getRandomSuspects();
     }, []);
+
+    useEffect(() => {
+        getRandomSuspects();
+    }, [personList, players, numPersons]);
 
 
     return (
         <div>
             <h1>Welcome to Guess Who!</h1>
             <div id="game">
-                <h2>Click on a Person to Elimate Them from the Suspect List</h2>
-                <div id = "suspectList">
-                    {suspectList.map((person) => (
-                        <PersonButton key={person} person={person} />
+                <h2>Click on a Person to Eliminate Them from the Suspect List</h2>
+                <div id="suspectList">
+                    {Array.from(suspectList.entries()).map(([teamNumber, team]) => (
+                        <div className="team" key={teamNumber} style={{ maxWidth: 100 / players + '%' }}>
+                            <h3>Team {teamNumber + 1}</h3>
+                            {team.map(person => (
+                                <PersonButton 
+                                    key={person} 
+                                    person={person} 
+                                    clickedStates={clickedStates} 
+                                    setClickedStates={setClickedStates} 
+                                />
+                            ))}
+                        </div>
                     ))}
                 </div>
-
                 <button onClick={getRandomSuspects}>Reshuffle</button>
                 <a href="/guess-who" onClick={() => localStorage.clear()}>Clear Settings</a>
             </div>
@@ -79,16 +115,18 @@ const StartPage = () => {
     );
 };
 
-const PersonButton = ({person}) => {
-    const [isClicked, setIsClicked] = React.useState(false);
+const PersonButton = ({person, clickedStates, setClickedStates}) => {
 
     const handleClick = () => {
         console.log('clicked', person);
-        setIsClicked(true);
+        setClickedStates({
+            ...clickedStates,
+            [person]: true
+          });
     }
 
     return (
-        <button onClick={handleClick} style={{ display: isClicked ? 'none' : 'inline' }}>
+        <button class="person" onClick={handleClick} style={{ display: clickedStates[person] ? 'none' : 'inline' }}>
             {person}
         </button>
     );

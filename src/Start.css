@@ -1,0 +1,21 @@
+#suspectList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.team {
+  display: horizontal;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.person {
+    width: 100%;
+    max-width: 150px;
+    margin: 2px;
+}
