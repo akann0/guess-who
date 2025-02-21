@@ -49,10 +49,10 @@ function Landing() {
         <p>
           Click Below to Start Guess Who!!!!!!!
         </p>
-        <a className="App-button" href="/settings">
+        <a className="App-button" href="/guess-who/settings">
           Settings
         </a>
-        <a className="App-button" href="/start">
+        <a className="App-button" href="/guess-who/start">
           Start
         </a>
       </header>

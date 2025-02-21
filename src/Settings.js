@@ -86,7 +86,7 @@ const SettingsPage = () => {
                 </ul> 
                 {/* TODO: allow user to remove lists from this */}
             </div>
-            <a onClick={SaveSettingsLocally} href="/">Go Back</a>
+            <a onClick={SaveSettingsLocally} href="/guess-who">Go Back</a>
         </div>
     );
 };
