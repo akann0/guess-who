@@ -10,7 +10,19 @@ const DEFAULT_PLAYERS = 1;
 const DEFAULT_NUM_PERSONS = 24;
 const DEFAULT_QUESTIONS = 10;
 
-function Landing() {
+function GuessWho() {
+  const [page, setPage] = useState('landing');
+
+  return (
+    <div>
+      {page === 'landing' && <Landing setPage={setPage} />}
+      {page === 'settings' && <SettingsPage setPage={setPage} />}
+      {page === 'start' && <StartPage setPage={setPage} />}
+    </div>
+  );
+}
+
+function Landing({ setPage }) {
   const [players, setPlayers] = useState(DEFAULT_PLAYERS);
   const [numPersons, setNumPersons] = useState(DEFAULT_NUM_PERSONS);
   const [questions, setQuestions] = useState(DEFAULT_QUESTIONS);
@@ -49,10 +61,10 @@ function Landing() {
         <p>
           Click Below to Start Guess Who!!!!!!!
         </p>
-        <a className="App-button" href="/guess-who/settings">
+        <a className="App-button" onClick = {() => setPage('settings')}>
           Settings
         </a>
-        <a className="App-button" href="/guess-who/start">
+        <a className="App-button" onClick = {() => setPage('start')}>
           Start
         </a>
       </header>
@@ -64,9 +76,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/guess-who" element={<Landing />} />
-        <Route path="/guess-who/settings" element={<SettingsPage />} />
-        <Route path="/guess-who/start" element={<StartPage />} />
+        <Route path="/guess-who" element={<GuessWho />} />
       </Routes>
     </BrowserRouter>
   );

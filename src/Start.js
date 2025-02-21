@@ -9,35 +9,55 @@ const StartPage = () => {
     const [questions, setQuestions] = React.useState(10);
     const [suspectList, setSuspectList] = React.useState([]); 
 
-    useEffect(() => {
-        const personList = JSON.parse(localStorage.getItem('personList'));
+    const getRandomSuspects = () => { 
         const suspectListX = [];
 
-        console.log('personList', personList);
+        // console.log('personList', personList);
 
+        // Catch Duplicates Here (far more effecient)
+        let unique = new Map();
         for (let i = 0; i < personList.length; i++) {
             console.log(i, personList[i], personLists[personList[i]]);
             for (let j = 0; j < personLists[personList[i]].length; j++) {
-                console.log(personLists[personList[i]][j]);
+                if (!unique.has(personLists[personList[i]][j])) {
+                    unique.set(personLists[personList[i]][j], false);
+                }
                 suspectListX.push(personLists[personList[i]][j]);
             }
         }
 
-        console.log('suspectList', suspectListX);
-
+        let newSuspectList = [];
         // randomly rearrange the suspect list
-        for (let i = 0; i < suspectListX.length; i++) {
+        while (newSuspectList.length < numPersons && suspectListX.length > 0) {
             let randomIndex = Math.floor(Math.random() * suspectListX.length);
-            let temp = suspectListX[i];
-            suspectListX[i] = suspectListX[randomIndex];
-            suspectListX[randomIndex] = temp;
+            if (!unique.get(suspectListX[randomIndex])) {
+                newSuspectList.push(suspectListX[randomIndex]);
+                unique.set(suspectListX[randomIndex], true);
+            }
+            suspectListX.splice(randomIndex, 1);
         }
+        setSuspectList(newSuspectList);
+    }
 
-        console.log('suspectList', suspectListX.slice(0, numPersons));
+    useEffect(() => {
+        const personList = JSON.parse(localStorage.getItem('personList'));
+        const players = localStorage.getItem('players');
+        const numPersons = localStorage.getItem('numPersons');
+        const questions = localStorage.getItem('questions');
 
-        setSuspectList(suspectListX.slice(0, numPersons));
-
-        console.log('suspectList', suspectList);
+        if (personList) {
+            setPersonList(personList);
+        }
+        if (players) {
+            setPlayers(players);
+        }
+        if (numPersons) {
+            setNumPersons(numPersons);
+        }
+        if (questions) {
+            setQuestions(questions);
+        }
+        getRandomSuspects();
     }, []);
 
 
@@ -51,6 +71,9 @@ const StartPage = () => {
                         <PersonButton key={person} person={person} />
                     ))}
                 </div>
+
+                <button onClick={getRandomSuspects}>Reshuffle</button>
+                <a href="/guess-who" onClick={() => localStorage.clear()}>Clear Settings</a>
             </div>
         </div>
     );

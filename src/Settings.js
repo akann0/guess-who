@@ -1,15 +1,35 @@
 import React from 'react';
 import personLists from './personLists.json';
 
-const SettingsPage = () => {
+
+
+const SettingsPage = ({ setPage }) => {
     const [players, setPlayers] = React.useState(2);
     const [numPersons, setNumPersons] = React.useState(24);
     const [questions, setQuestions] = React.useState(10);
     const [personList, setPersonList] = React.useState(["Celebrities"]); //TODO: Set Default Person List
+    const [GrapefruitToggle, setGrapefruitToggle] = React.useState(false);
+    const [GRAPEFRUIT, setGRAPEFRUIT] = React.useState([]);
+
+    React.useEffect(() => {
+        const players = localStorage.getItem('players');
+        const numPersons = localStorage.getItem('numPersons');
+        const questions = localStorage.getItem('questions');
+        const personList = localStorage.getItem('personList');
+        const GRAPEFRUIT = [];
+        for (const key in personLists) {
+            GRAPEFRUIT.push(key);
+        }
+        setGRAPEFRUIT(GRAPEFRUIT);
+    }, []);    
 
     const addtoPersonList = (listName) => {
         if (personLists[listName]) {  
             setPersonList([...personList, listName]);
+        } else if (listName === "Grapefruit") {
+            setGrapefruitToggle(true);
+        } else if (listName === "BlazeIt420") {
+            setPersonList(GRAPEFRUIT);
         } else {
             alert("List not found");
         }
@@ -32,6 +52,7 @@ const SettingsPage = () => {
         localStorage.setItem('numPersons', numPersons);
         localStorage.setItem('questions', questions);
         localStorage.setItem('personList', JSON.stringify(personList));
+        setPage('landing');
     }
 
     return (
@@ -74,9 +95,11 @@ const SettingsPage = () => {
                 <input 
                     type="text" 
                     placeholder="Enter list name" 
-                    onBlur={(event) => {
-                        const listName = event.target.value;
-                        addtoPersonList(listName);
+                    onKeyDown={(event) => {
+                        if (event.key === 'Enter') {
+                            const listName = event.target.value;
+                            addtoPersonList(listName);
+                        }
                     }}
                 />
                 <ul>
@@ -84,9 +107,15 @@ const SettingsPage = () => {
                         <li key={index}>{listName}</li>
                     ))}
                 </ul> 
+                <ul id="Grapefruit" style={{display: GrapefruitToggle ? 'block' : 'none'}}>
+                    <p>All Possible Categories:</p> 
+                    {GRAPEFRUIT.map((listName, index) => (
+                        <li key={index}>{listName}</li>
+                    ))}
+                </ul>
                 {/* TODO: allow user to remove lists from this */}
             </div>
-            <a onClick={SaveSettingsLocally} href="/guess-who">Go Back</a>
+            <a onClick={SaveSettingsLocally}>Go Back</a>
         </div>
     );
 };
