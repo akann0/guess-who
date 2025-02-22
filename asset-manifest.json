@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/guess-who/static/css/main.6bc6cb9c.css",
-    "main.js": "/guess-who/static/js/main.762603f0.js",
+    "main.js": "/guess-who/static/js/main.eae510b1.js",
     "static/js/453.5d665ca5.chunk.js": "/guess-who/static/js/453.5d665ca5.chunk.js",
     "static/media/logo.svg": "/guess-who/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
     "index.html": "/guess-who/index.html",
     "main.6bc6cb9c.css.map": "/guess-who/static/css/main.6bc6cb9c.css.map",
-    "main.762603f0.js.map": "/guess-who/static/js/main.762603f0.js.map",
+    "main.eae510b1.js.map": "/guess-who/static/js/main.eae510b1.js.map",
     "453.5d665ca5.chunk.js.map": "/guess-who/static/js/453.5d665ca5.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.6bc6cb9c.css",
-    "static/js/main.762603f0.js"
+    "static/js/main.eae510b1.js"
   ]
 }
