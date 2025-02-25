@@ -5,6 +5,7 @@ import './App.css';
 
 import SettingsPage from './Settings.js';
 import StartPage from './Start.js';
+import KFMPage from './KFM.js';
 
 const DEFAULT_PLAYERS = 1;
 const DEFAULT_NUM_PERSONS = 24;
@@ -18,6 +19,7 @@ function GuessWho() {
       {page === 'landing' && <Landing setPage={setPage} />}
       {page === 'settings' && <SettingsPage setPage={setPage} />}
       {page === 'start' && <StartPage setPage={setPage} />}
+      {page === 'kfm' && <KFMPage setPage={setPage} />}
     </div>
   );
 }
@@ -62,9 +64,6 @@ function Landing({ setPage }) {
           Click Below to Start Guess Who!!!!!!!
         </p>
         <a className="App-button" onClick = {() => setPage('settings')}>
-          Settings
-        </a>
-        <a className="App-button" onClick = {() => setPage('start')}>
           Start
         </a>
       </header>

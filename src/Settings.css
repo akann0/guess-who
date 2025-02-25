@@ -36,4 +36,15 @@
       transform: rotate(360deg);
     }
   }
+
+  a {
+    background-color: #61dafb;
+    margin: 0 10px;
+  }
+
+  #buttons {
+    display: flex;
+    justify-content: left;
+    margin-top: 20px;
+  }
   

@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import personLists from './personLists.json';
 import './Start.css';
-import { click } from '@testing-library/user-event/dist/click';
 
 const StartPage = () => {
 

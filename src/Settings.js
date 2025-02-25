@@ -1,5 +1,6 @@
 import React from 'react';
 import personLists from './personLists.json';
+import './Settings.css';
 
 
 
@@ -47,12 +48,12 @@ const SettingsPage = ({ setPage }) => {
     const handlePersonListChange = (event) => {
         setPersonList(event.target.value);
     }
-    const SaveSettingsLocally = () => {
+    const SaveSettingsLocally = (page) => {
         localStorage.setItem('players', players);
         localStorage.setItem('numPersons', numPersons);
         localStorage.setItem('questions', questions);
         localStorage.setItem('personList', JSON.stringify(personList));
-        setPage('landing');
+        setPage(page);
     }
 
     return (
@@ -115,7 +116,10 @@ const SettingsPage = ({ setPage }) => {
                 </ul>
                 {/* TODO: allow user to remove lists from this */}
             </div>
-            <a onClick={SaveSettingsLocally}>Go Back</a>
+            <div id="buttons">
+                <a onClick={() => SaveSettingsLocally("start")}>Go</a>
+                <a onClick={() => SaveSettingsLocally("kfm")}>Try Something Fun</a>
+            </div>
         </div>
     );
 };
