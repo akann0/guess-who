@@ -1,11 +1,19 @@
 import React, { useEffect } from 'react';
 import personLists from './personLists.json';
+import KFMJSON from './KFM.json';
+// import './KFM.css';
+const DEFAULT_ROLES = ["Kill", "Shaboink", "Marry"];
+const NUM_ROLES = 10;
 
 const KFM = () => {
     const [currentPerson, setCurrentPerson] = React.useState(null);
+    const [showCurrentPerson, setShowCurrentPerson] = React.useState(true);    
     const [order, setOrder] = React.useState([]);
-    const [choices, setChoices] = React.useState({ kill: null, fuck: null, marry: null });
+    const [choices, setChoices] = React.useState(new Map(
+        DEFAULT_ROLES.map((role) => [role, null])
+    ));
     const [personList, setPersonList] = React.useState(null);
+    const [roles, setRoles] = React.useState(DEFAULT_ROLES)
 
     const randomOrder = () => { 
         const suspectListX = [];
@@ -38,6 +46,20 @@ const KFM = () => {
         setOrder(newSuspectList);
     };
 
+    const randomRoles = () => {
+
+        const rolesX = [];
+        for (let i = 0; i < NUM_ROLES; i++) {
+            let role = KFMJSON.roles[Math.floor(Math.random() * KFMJSON.roles.length)];
+            while (rolesX.includes(role)) {
+                role = KFMJSON.roles[Math.floor(Math.random() * KFMJSON.roles.length)];
+            }
+            rolesX.push(role);
+        }
+        setRoles(rolesX);
+    }
+
+
     useEffect(() => {
         const pL = JSON.parse(localStorage.getItem('personList'));
         if (pL) {
@@ -50,6 +72,7 @@ const KFM = () => {
     useEffect(() => {
         if (personList) {
             randomOrder();
+            randomRoles();
         }
     }, [personList]);
 
@@ -57,17 +80,48 @@ const KFM = () => {
         setCurrentPerson(order.pop())
     }, [order])
 
-    
-
-    const handleChoice = (choice) => {
-        setChoices((prevChoices) => ({ ...prevChoices, [choice]: currentPerson }));
+    const reset = () => {
+        setChoices(new Map(
+            DEFAULT_ROLES.map((role) => [role, null])
+        ));
+        randomOrder();
+        randomRoles();
         setCurrentPerson(order.pop());
     };
 
+    
+
+    const handleChoice = (choice) => {
+        setChoices(new Map(choices.set(choice, currentPerson)));
+        setCurrentPerson(order.pop());
+
+        let allChosen = true;
+        for (let [role, person] of choices) {
+            if (!person) {
+                allChosen = false;
+            }
+        }
+        console.log(allChosen);
+        setShowCurrentPerson(!allChosen);
+    };
+
+    const Role_Button = ({label, handleChoice}) => (
+        <div className="role-button-wrapper" style={{ marginRight: '10px', display: "flex" }}>
+            <button className="role-text" onClick={() => handleChoice(label)}>{label}: </button>
+        </div>
+    );
+
+    const Role_Text = ({label, personName}) => (
+        <div className="role-text-wrapper" style={{ marginRight: '10px', display: "flex" }}>
+            <p className="role-text">{label}: </p>
+            <p>{personName}</p>
+        </div>
+    );
+
     return (
         <div>
-            <h1>Kill, Fuck, Marry</h1>
-            {currentPerson && (
+            <h1>Kill, Shaboink, Marry</h1>
+            {showCurrentPerson && (
                 <div>
                     <p>{currentPerson}</p>
                 </div>
@@ -75,22 +129,18 @@ const KFM = () => {
             <div>
                 <h2>Choices</h2>
             </div>
-            {currentPerson && (
-                <div>
-                    <div className="choice-button" style={{ marginRight: '10px', display:"flex" }}>
-                        <button onClick={() => handleChoice('kill')}>Kill:</button>
-                        <p>{choices.kill ? choices.kill : ""}</p>
-                    </div>
-                    <div className="choice-button" style={{ marginRight: '10px', display:"flex" }}>
-                        <button onClick={() => handleChoice('fuck')}>Fuck:</button>
-                        <p>{choices.fuck ? choices.fuck : ''}</p>
-                    </div>
-                    <div className="choice-button" style={{ marginRight: '10px', display:"flex" }}>
-                        <button onClick={() => handleChoice('marry')}>Marry:</button>
-                        <p>{choices.marry ? choices.marry : ''}</p>
-                    </div>
-                </div>
-            )}
+            <div>
+                {roles.map((role) => (
+                    choices.get(role) ? (
+                        <Role_Text key={role} label={role} personName={choices.get(role)} />
+                    ) : (
+                        <Role_Button key={role} label={role} handleChoice={handleChoice} />
+                    )
+                ))}
+            </div>
+            <div id="reset-button" style={{marginTop: '100px'}}>
+                <button onClick={reset}>Reset</button>
+            </div>
         </div>
     );
 };
