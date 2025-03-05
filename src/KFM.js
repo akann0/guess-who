@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import personLists from './personLists.json';
 import KFMJSON from './KFM.json';
-// import './KFM.css';
+import './KFM.css';
 const DEFAULT_ROLES = ["Kill", "Shaboink", "Marry"];
 const NUM_ROLES = 10;
 
@@ -134,7 +134,7 @@ const KFM = () => {
                     choices.get(role) ? (
                         <Role_Text key={role} label={role} personName={choices.get(role)} />
                     ) : (
-                        <Role_Button key={role} label={role} handleChoice={handleChoice} />
+                        <Role_Button key={role} label={role} handleChoice={handleChoice} style={{height: '40px'}}/>
                     )
                 ))}
             </div>

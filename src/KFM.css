@@ -1,0 +1,65 @@
+/* KFM.css */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+}
+
+h2 {
+    color: #555;
+    font-size: 20px;
+}
+
+p {
+    font-size: 14px;
+    color: #666;
+}
+
+.role-button-wrapper {
+    margin: 5px 0;
+}
+
+.role-text-wrapper {
+    margin: 5px 0;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: inherit;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#reset-button {
+    text-align: center;
+}
+
+#reset-button button {
+    background-color: #28a745;
+    padding: 5px 10px;
+    font-size: inherit;
+}
+
+#reset-button button:hover {
+    background-color: #218838;
+}
+
+p {
+    margin: 0;
+    height: 28.4px;
+}

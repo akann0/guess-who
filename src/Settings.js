@@ -25,12 +25,18 @@ const SettingsPage = ({ setPage }) => {
     }, []);    
 
     const addtoPersonList = (listName) => {
-        if (personLists[listName]) {  
+        if (personLists[listName]) { 
+            if (personList.length === 1 && personList.includes("Celebrities")) {
+                setPersonList([listName]);
+            } else {
             setPersonList([...personList, listName]);
+            }
         } else if (listName === "Grapefruit") {
             setGrapefruitToggle(true);
         } else if (listName === "BlazeIt420") {
             setPersonList(GRAPEFRUIT);
+        } else if (listName === "MCWP") {
+            setPersonList(["Atlantis", "Past_MCWP", "Past_MCWP_Pulls", "Current_MCWP_A_Team", "Current_MCWP_B_Team"]);
         } else {
             alert("List not found");
         }
