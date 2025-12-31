@@ -18,8 +18,12 @@ const SettingsPage = ({ setPage }) => {
         const questions = localStorage.getItem('questions');
         const personList = localStorage.getItem('personList');
         const GRAPEFRUIT = [];
+        const BlazeIt420 = [];
         for (const key in personLists) {
             GRAPEFRUIT.push(key);
+            if (!key.includes("Kann")) {
+                BlazeIt420.push(key);
+            }
         }
         setGRAPEFRUIT(GRAPEFRUIT);
     }, []);    
@@ -34,7 +38,7 @@ const SettingsPage = ({ setPage }) => {
         } else if (listName === "Grapefruit") {
             setGrapefruitToggle(true);
         } else if (listName === "BlazeIt420") {
-            setPersonList(GRAPEFRUIT);
+            setPersonList(BlazeIt420);
         } else if (listName === "MCWP") {
             setPersonList(["Atlantis", "Past_MCWP", "Past_MCWP_Pulls", "Current_MCWP_A_Team", "Current_MCWP_B_Team"]);
         } else {

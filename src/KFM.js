@@ -47,7 +47,6 @@ const KFM = () => {
     };
 
     const randomRoles = () => {
-
         const rolesX = [];
         for (let i = 0; i < NUM_ROLES; i++) {
             let role = KFMJSON.roles[Math.floor(Math.random() * KFMJSON.roles.length)];
