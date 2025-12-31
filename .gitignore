@@ -11,6 +11,9 @@
 # production
 /build
 
+# person Lists (security)
+/src/personLists.json
+/src/KFM.json
 
 # misc
 .DS_Store
